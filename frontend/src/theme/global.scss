@@ -1,0 +1,11 @@
+.app-wrapper {
+  max-width: var(--max-width-app);
+  margin: auto;
+  overflow-x: hidden;
+  font-family: var(--ion-font-family);
+  background-size: cover;
+}
+
+ion-card {
+  box-shadow: var(--ion-box-shadow);
+}
