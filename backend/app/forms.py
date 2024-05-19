@@ -26,5 +26,5 @@ class CameraForm(Form):
     ]
     flight = IntegerField();
     location = ChoiceField(choices=CAMERA_LOCATIONS)
-    passenger_biometrics = CharField()
+    passenger_biometrics = CharField(max_length=10000)
 

@@ -5,9 +5,6 @@ import sqlite3
 import os
 from scipy.spatial import distance
 
-# Path to reference image
-reference_image_path = "f.jpg"  # Change to the correct path
-
 # Initialize SQLite database
 db_path = "face_encodings.db"
 
@@ -45,12 +42,15 @@ def get_face_encodings(db_path):
 
 # Function to extract face encodings
 def extract_face_encodings(image_path):
-    if not os.path.exists(image_path):
-        raise ValueError(f"File does not exist: {image_path}")
-    print(f"Loading image from: {image_path}")
+    # if not os.path.exists(image_path):
+    #     raise ValueError(f"File does not exist: {image_path}")
+    # print(f"Loading image from: {image_path}") sorry chcę użyć file handle
     image = face_recognition.load_image_file(image_path)
     face_encodings = face_recognition.face_encodings(image)
     if len(face_encodings) == 0:
         raise ValueError(f"No face found in image: {image_path}")
     return face_encodings[0]
 
+# Function to compare face encodings
+def compare_faces(encoding1, encoding2, tolerance=0.6):
+    return distance.euclidean(encoding1, encoding2) < tolerance

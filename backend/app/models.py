@@ -9,6 +9,6 @@ class Ticket(Model):
     ]
     passenger_name = CharField(max_length=64)
     passenger_state = CharField(max_length=1, choices=PASSENGER_STATES);
-    biometrics = CharField(max_length=2733) # length of a base64 encoded array of 512 floats
+    biometrics = CharField(max_length=27330) # length of a base64 encoded array of 512 floats
     flight = IntegerField()
 

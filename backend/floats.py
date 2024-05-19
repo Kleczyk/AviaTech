@@ -1,6 +1,6 @@
 import base64
 import struct
-import numpy
+import numpy as np
 
 float_array =  [0.0] * 512
 

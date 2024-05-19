@@ -1,26 +1,20 @@
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from .models import Ticket
 from . import forms
+import tempfile
+import identity
+import base64
+import numpy as np
 
-# def flight(request: HttpRequest):
-#     flight_airport = request.POST["airport"]
-#     flight_terminal = request.POST["terminal"]
-#     if flight_airport is None or flight_terminal is None:
-#         return
-#
-#     flight = Flight(airport=flight_airport, terminal=flight_terminal)
-#     flight.save()
-#
-#     return JsonResponse({'id' : flight.id})
-#
-# def flight_delete(request: HttpRequest):
-#     flight_id = request.POST["id"]
-#     if flight_id is None:
-#         return
-#
-#     Flight.objects.get(id=flight_id).delete()
-#     return HttpResponse('ok')
-#
+def numpy_array_to_base64(arr):
+    arr_bytes = arr.tobytes()
+    arr_base64 = base64.b64encode(arr_bytes).decode('utf-8')
+    return arr_base64
+
+def base64_to_numpy_array(base64_str):
+    arr_bytes = base64.b64decode(str(base64_str).encode('utf-8'))
+    arr = np.frombuffer(arr_bytes, dtype=np.float64)
+    return arr
 
 def register_ticket(request: HttpRequest):
     form = forms.TicketUploadForm(request.POST, request.FILES)
@@ -28,24 +22,35 @@ def register_ticket(request: HttpRequest):
         passenger_name = form.cleaned_data['passenger_name']
         flight =         form.cleaned_data['flight_id']
         file =           form.cleaned_data['file']
-        # todo download attached file
-        # dispatch file for AI stuff
-        # dump vector data to db
-        ticket = Ticket(passenger_name=passenger_name, passenger_state='0', biometrics="A", flight=flight);
+
+        encoding = None
+        with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+                for chunk in file.chunks():
+                    temp_file.write(chunk)
+                temp_file.flush()
+                temp_file.seek(0)
+                encoding = identity.extract_face_encodings(temp_file)
+
+        encoding_base64 = numpy_array_to_base64(encoding)
+        ticket = Ticket(passenger_name=passenger_name, passenger_state='0', biometrics=encoding_base64, flight=flight);
         ticket.save()
-        return HttpResponse('ok')
+        return HttpResponse('')
     return HttpResponse('Invalid request')
 
 
 def camera_triggered(request: HttpRequest):
     camera = forms.CameraForm(request.POST)
     if camera.is_valid():
-        biometrics = camera.cleaned_data['passenger_biometrics']
+        encoding = base64_to_numpy_array(camera.cleaned_data['passenger_biometrics'])
+
         for ticket in Ticket.objects.filter(flight=camera.cleaned_data['flight']):
-            if ticket.biometrics == biometrics: # todo actual comparation
+            ticket_encoding = base64_to_numpy_array(ticket.biometrics)
+
+            if identity.compare_faces(encoding, ticket_encoding):
                 ticket.passenger_state = camera.cleaned_data['location']
                 ticket.save()
-                return HttpResponse('ok')
+                return HttpResponse('')
+
         return HttpResponse('This person wasn\'t found on this flight')
     return HttpResponse('Invalid request')
     
