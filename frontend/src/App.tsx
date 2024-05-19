@@ -4,6 +4,8 @@ import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/home/Home';
 import TicketPage from './pages/ticket/TicketPage';
 import PaymentPage from './pages/payment/PaymentPage';
+import FaceIdPage from './pages/faceid/FaceIdPage';
+import Congrats from './pages/congrats/Congrats';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -35,7 +37,6 @@ import '@ionic/react/css/palettes/dark.system.css';
 /* Theme variables */
 import "./theme/global.scss";
 import './theme/variables.css';
-import FaceIdPage from './pages/faceid/FaceIdPage';
 
 setupIonicReact();
 
@@ -56,7 +57,7 @@ const App: React.FC = () => (
           <FaceIdPage />
         </Route>
         <Route exact path="/congrats">
-          <Home />
+          <Congrats />
         </Route>
         <Route exact path="/">
           <Redirect to="/home" />
