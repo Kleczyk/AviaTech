@@ -1,8 +1,13 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton } from '@ionic/react';
+
+import React from "react";
+import { IonContent, IonPage, IonButton } from '@ionic/react';
+import { useHistory } from "react-router-dom";
 
 import './Home.scss';
 
 const Home: React.FC = () => {
+  const history = useHistory();
+
   return (
     <IonPage>
       <IonContent fullscreen className="ion-padding">
@@ -14,7 +19,9 @@ const Home: React.FC = () => {
           </div>
           <IonButton
             size="large"
-            onClick={() => {}}
+            onClick={() => {
+              history.push("/ticket");
+            }}
           >
             Buy a ticket
           </IonButton>

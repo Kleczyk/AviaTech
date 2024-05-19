@@ -9,3 +9,8 @@
 ion-card {
   box-shadow: var(--ion-box-shadow);
 }
+
+ion-button {
+  --color: var(--ion-color-primary);
+  --background: var(--ion-color-light);
+}
