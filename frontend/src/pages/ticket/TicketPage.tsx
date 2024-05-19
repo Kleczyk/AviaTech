@@ -67,7 +67,7 @@ const TicketPage: React.FC = () => {
           <IonButton
             size="large"
             onClick={() => {
-              history.push("/faceid");
+              history.push("/payment");
             }}
           >
             Select & Pay
