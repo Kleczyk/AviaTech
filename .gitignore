@@ -1,1 +1,9 @@
 .idea/
+*.db
+*.jpg
+*.png
+*.jpeg
+IJBA/
+notebooks/The-IARPA-Janus-Benchmark-A-IJB-A-dataset-face-verification-11-test-protocol-a.ppm
+notebooks/lfw_dataset/
+src/__pycache__/
