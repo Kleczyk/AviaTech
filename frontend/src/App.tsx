@@ -35,6 +35,7 @@ import '@ionic/react/css/palettes/dark.system.css';
 /* Theme variables */
 import "./theme/global.scss";
 import './theme/variables.css';
+import FaceIdPage from './pages/faceid/FaceIdPage';
 
 setupIonicReact();
 
@@ -52,7 +53,7 @@ const App: React.FC = () => (
           <PaymentPage />
         </Route>
         <Route exact path="/faceid">
-          <Home />
+          <FaceIdPage />
         </Route>
         <Route exact path="/congrats">
           <Home />

@@ -23,7 +23,7 @@ const PaymentPage: React.FC = () => {
           <IonButton
             size="large"
             onClick={() => {
-              history.push("/faceid");
+              history.replace("/faceid");
             }}
           >
             Finish payment
