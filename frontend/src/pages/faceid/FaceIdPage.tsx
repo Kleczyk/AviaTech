@@ -13,8 +13,45 @@ const FaceIdPage: React.FC = () => {
   const [photo, setPhoto] = useState<string | null>(null);
   const [presentLoading, dismissLoading] = useIonLoading();
 
-  const verifyPhoto = () => {
-    console.log("requescik");
+  const base64ToBlob = (base64: string, contentType: string) => {
+    const byteCharacters = atob(base64.split(',')[1]);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    return new Blob([byteArray], { type: contentType });
+  };
+
+  const verifyPhoto = async (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    if (!photo) {
+      console.error('No photo taken');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('passenger_name', "Joe");
+    formData.append('flight_id', "44");
+    console.log(photo);
+    formData.append('file', base64ToBlob(photo, 'image/png'));
+
+    try {
+      const response = await fetch('http://192.168.118.1:8000/register_ticket', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        console.log('Form submitted successfully');
+        console.log(response);
+      } else {
+        console.error('Form submission failed');
+      }
+    } catch (error) {
+      console.error('Error submitting form: ', error);
+    }
     setIsScanSuccess(true);
     dismissLoading();
   };
@@ -46,15 +83,15 @@ const FaceIdPage: React.FC = () => {
           <IonButton
             size="large"
             disabled={!photo}
-            onClick={() => {
+            onClick={event => {
               if (isScanSuccess) {
                 history.push("/congrats");
               } else {
                 presentLoading({
                   message: 'Loading...',
-                  duration: 3000,
+                  // duration: 3000,
                 });
-                verifyPhoto();
+                verifyPhoto(event);
               }
             }}
           >
