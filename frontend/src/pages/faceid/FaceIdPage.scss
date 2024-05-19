@@ -1,0 +1,15 @@
+.faceid-page-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .face-wrap {
+    margin-bottom: 20px;
+
+    p {
+      font-size: 30px;
+      margin-bottom: 30px;
+      margin-top: 0px;
+    }
+  }
+}

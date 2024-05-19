@@ -14,8 +14,8 @@ const Home: React.FC = () => {
         <div className="home">
           <img src="/assets/icons/koalus.jpg" alt="kalus" className="logo"/>
           <div className="caption">
-            <p className="title">Best airlines</p>
-            <p className="subtitle">Best koalas</p>
+            <p className="title">Koalas' airlines</p>
+            <p className="subtitle">Best airlines</p>
           </div>
           <IonButton
             size="large"
