@@ -12,7 +12,7 @@ const Home: React.FC = () => {
     <IonPage>
       <IonContent fullscreen className="ion-padding">
         <div className="home">
-          <img src="/assets/icons/koalus.jpg" alt="kalus" className="logo"/>
+          <img src="/assets/icons/plane.png" alt="kalus" className="logo"/>
           <div className="caption">
             <p className="title">Koalas' airlines</p>
             <p className="subtitle">Best airlines</p>
